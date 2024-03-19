@@ -90,17 +90,20 @@ int main() {
 		Discount = (MonthPayment * DiscountValue) / 100;
 		PaymentWithDiscount = MonthPayment - Discount;
 		
+		printf("Full Monthly Payment: R$%.2f (with %.0f percent discount) \n\n", PaymentWithDiscount, DiscountValue);
+			
+		printf("\n");
+		printf("%s, esse mes sao %.0f aulas. _%.0f * %.2f = R$%.2f_ --> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", StudentName, HoursNumber, 
+		HoursNumber, Price, MonthPayment, DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+	
 	} else {
 		
 		printf("No discount... \n");
 	
+		printf("\n");
+		printf("%s, esse mes sao %.0f aulas. %.0f * %.2f = *R$%.2f*.", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+
 	}
-	
-	printf("Full Monthly Payment: R$%.2f (with %.0f percent discount) \n\n", PaymentWithDiscount, DiscountValue);
-	
-	printf("\n");
-	printf("%s, esse mes sao %.0f aulas. _%.0f * %.2f = R$%.2f_ --> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", StudentName, HoursNumber, 
-	HoursNumber, Price, MonthPayment, DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
 	
 	Exit:
 	
