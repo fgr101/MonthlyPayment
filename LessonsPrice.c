@@ -231,15 +231,37 @@ int main() {
 					
 			case 2: 
 				
-				printf("%s, este mes son %.0f clases. _%.0f * %.2f = R$%.2f_ --> con el %.0f porciento de descuento quedaria: %.2f - %.2f = *R$%.2f*.", StudentName, HoursNumber, 
-				HoursNumber, Price, MonthPayment, DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				printf("%s, este mes son %.0f clases. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+				
+				if (ApplyDiscount == 1) {
+					
+					printf("--> con el %.0f porciento de descuento quedaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				
+				}
+			
+				if (ApplyDiscount == 0) {
+					
+					printf(" --> Sin descuento aplicado.");
+				
+				}
 				
 				break;
 			
 			case 3:
 				
-				printf("%s, esse mes sao %.0f aulas. _%.0f * %.2f = R$%.2f_ --> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", StudentName, HoursNumber, 
-				HoursNumber, Price, MonthPayment, DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				printf("%s, esse mes sao %.0f aulas. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+				
+				if (ApplyDiscount == 1) {
+					
+					printf("--> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				
+				}
+				
+				if (ApplyDiscount == 0) {
+					
+					printf(" --> Sem desconto.");
+				
+				}
 				
 				break;
 				
