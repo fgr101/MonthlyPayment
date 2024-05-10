@@ -12,6 +12,7 @@ void SaveData();
 void StoreInArrays();
 void ClearScreen();
 
+
 // Constants
 
 const float SingleLessonPrice = 31;
@@ -31,6 +32,8 @@ int ApplyDiscount = 0;
 
 char UserInput0[10];
 char StudentName[15];
+int MonthNumber;
+char Month[15];
 int Options;
 int i;
 float HoursNumber;
@@ -159,6 +162,9 @@ int main() {
 	printf("\nStudent Name: ");
 	scanf("%14s", &StudentName);
 	
+	printf("\nMonth of Payment: ");
+	scanf("%14s", &Month);
+	
 	printf("Number of lessons: ");
 	scanf("%f", &HoursNumber);
 	
@@ -284,7 +290,9 @@ int main() {
 	// STORING IN ARRAYS AND SAVING DATA
 	StoreInArrays();
 	
+	// Generate payment receipt.
 	
+	printf(" Generate receipt? [Y/N]: ");
 	
 	Exit:
 	
@@ -409,13 +417,15 @@ void PaymentsDetails() {
 // ================================= NOTES =======================================	
 	
 // TO DO
-// ====
+// =====
 
-//* Add languages feature. Final messages in Spanish, English and Portuguese. [80%]
-//* Don't show discount messages and information when there's NO discount applied.
+//* Generate receipt.
 
 // DONE
 // ====
+
+//* Add languages feature. Final messages in Spanish, English and Portuguese. [100%]
+//* Don't show discount messages and information when there's NO discount applied. [100%]
 
 
 
