@@ -10,10 +10,11 @@
 
 void PaymentsDetails();
 void SaveData();
+void Load();
 void StoreInArrays();
 void ClearScreen();
 void ChangePrices();
-void Load();
+
 
 // Constants
 
@@ -124,6 +125,7 @@ int main() {
 			
 			//CHANGE VARIABLES
 			ChangePrices();
+			SaveData();
 			goto ProgramIni;
 			break;
 		
@@ -426,11 +428,11 @@ void ClearScreen() {
 
 void SaveData() {
 	
-	for (i=0; i<5; i++) {
+	//for (i=0; i<5; i++) {
 		
-		printf("%d", i);
+		//printf("%d", i);
 		
-	}
+	//}
 	
 	printf("Saving...");
 	
@@ -445,20 +447,20 @@ void SaveData() {
 
     // Write variables to the file
     
-    fprintf(fptr, "%f4s", SingleLessonPrice);
-    printf("Single lesson price saved... \n");
-        
-    fprintf(fptr, "%f4s", GroupLessonPrice);
-    printf("Group lesson price saved... \n");
-	    
-    //fprintf(fptr, "%29s", MasterKey);
+    fprintf(fptr, "%f\n", SingleLessonPrice);
+    fprintf(fptr, "%f\n", GroupLessonPrice);
+    fprintf(fptr, "%f\n", DiscountValue);
     
-    for (i = 0; i < MAX_STORAGE; i++) { // FOR..I loop to save passwords and IDs.
+    printf("Single lesson price saved: %.2f\n", SingleLessonPrice);
+    printf("Group lesson price saved: %.2f\n", GroupLessonPrice);
+    printf("Discount value saved: %.2f\n", DiscountValue);
+	    
+    //for (i = 0; i < MAX_STORAGE; i++) { // FOR..I loop to save passwords and IDs.
         
         //fprintf(fptr, "%49s", WebService[i]);
         //fprintf(fptr, "%49s", ID[i]);
         //fprintf(fptr, "%49s", passwords[i]);
-    }
+    //}
 
 
 	fclose(fptr);
@@ -485,14 +487,15 @@ void Load() {
     	return;
 
 	}
-
-	// Read variables from the file
 		
-	fscanf(fptr, "%f4s", &SingleLessonPrice); // adjust buffer size based on your needs
-	printf("Single lesson price loaded... \n");
-	
-	fscanf(fptr, "%f4s", &GroupLessonPrice); // adjust buffer size based on your needs
-	printf("Group lesson price loaded... \n");
+    // Read variables from the file
+    fscanf(fptr, "%f", &SingleLessonPrice);
+    fscanf(fptr, "%f", &GroupLessonPrice);
+    fscanf(fptr, "%f", &DiscountValue);
+
+    printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
+    printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
+    printf("Discount value loaded: %.2f\n", DiscountValue);
 	
 	//for (i = 0; i < MAX_STORAGE; i++) { // Corrected loop condition
 			
@@ -516,9 +519,10 @@ void PaymentsDetails() {
 void ChangePrices() {
 	
 	printf("CHANGE VARIABLES.... \n");
-	printf("Single lessons price: R$%.2f \n", SingleLessonPrice);
-	printf("Group lessons price: R$%.2f \n", GroupLessonPrice);
-	printf("\n");
+    printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
+    printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
+    printf("Discount value loaded: %.2f\n", DiscountValue);
+    printf("\n");
 		
 	printf("Single lesson price? \n");
 	scanf("%f4s", &SingleLessonPrice);
@@ -526,9 +530,9 @@ void ChangePrices() {
 	printf("Group lesson price? \n");
 	scanf("%f4s", &GroupLessonPrice);
 	
-	//const float SingleLessonPrice = 31;
-	//const float GroupLessonPrice = 25;
-	
+	printf("Discount value? \n");
+	scanf("%f4s", &DiscountValue);
+				
 }
 
 // ================================= NOTES =======================================	
