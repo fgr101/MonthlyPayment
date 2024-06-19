@@ -1,5 +1,6 @@
 #include <stdio.h>	 //*This is the STANDARD LIBRARY for C.
 #include <string.h> //*This is the library to work with strings.
+#include <unistd.h> //*Include this for access function. Required for sleep() on Unix-like systems
 
 #ifdef _WIN32
 #include <windows.h> // Required for Sleep() on Windows 
@@ -11,16 +12,18 @@ void PaymentsDetails();
 void SaveData();
 void StoreInArrays();
 void ClearScreen();
-
+void ChangePrices();
+void Load();
 
 // Constants
 
-const float SingleLessonPrice = 31;
-const float GroupLessonPrice = 25;
-const float DiscountValue = 10;
-const int MAX_STORAGE = 5;
+int MAX_STORAGE = 5;
 
 // General Variables
+
+float SingleLessonPrice = 31;
+float GroupLessonPrice = 25;
+float DiscountValue = 10;
 
 //Switches
 
@@ -55,13 +58,52 @@ FILE *fptr; // Declare the file pointer globally
 
 int main() {
 	
-	ProgramIni:
+	//==================================================================
+	// CREATES DATA FILE (IF IT DOESN'T EXIST)
+
+	const char * filename = "data.dat";
+
+	// Check if the file exists
+
+	if (access(filename, F_OK) != -1) {
+		
+		//fptr = fopen(filename, "r+"); 
+		Load();
+		
+	} else {
+			
+			// File doesn't exist, create a new file
+			
+			fptr = fopen(filename, "w+");
+			printf("File does not exist. New file created. \n");
+			fclose(fptr);
+		
+		}
+
+	// Check if the file was opened successfully
+	if (fptr == NULL) 
+
+	{
+		
+		printf("Error opening the file.\n");
+		return 1; // indicate an error to the operating system
+
+	}
+
+	// Close the file
+	//fclose(fptr);
+
+	//==================================================================
+
+	Load();
 	
+	ProgramIni:
 	ClearScreen();
 	
 	printf("\n");
 	printf("1- Generate Payment \n");
 	printf("2- Show Monthly Payments Log \n");
+	printf("3- Change Variables \n");
 	printf("10- SaveData \n");
 	printf("7- Exit \n\n");
 
@@ -77,15 +119,24 @@ int main() {
 		
 			//SHOW MONTHLY PAYMENTS
 			break;
+			
+		case 3:
+			
+			//CHANGE VARIABLES
+			ChangePrices();
+			goto ProgramIni;
+			break;
 		
 		case 10:
 		
 			SaveData();
+			goto ProgramIni;
 			break;
 		
 		
 		case 7:
-		
+			
+			SaveData();
 			ClearScreen();
 			return 0;
 			break;
@@ -180,7 +231,7 @@ int main() {
 		
 	}
 		
-	MonthPayment = Price * HoursNumber;    
+	MonthPayment = Price * HoursNumber;   
 	
 	ClearScreen();
 	
@@ -288,11 +339,18 @@ int main() {
 	printf("\n\n==================================================================================================== \n");
 	
 	// STORING IN ARRAYS AND SAVING DATA
+	
 	StoreInArrays();
 	
 	// Generate payment receipt.
 	
-	printf(" Generate receipt? [Y/N]: ");
+	printf(" Generate receipt? [Y/N]: \n\n");
+	
+	printf("*Payment Received*\n");
+	printf("*====== ======*\n\n");
+	
+	printf("*Name:* %s \n", StudentName);
+	printf("*Month:* %s \n", Month);
 	
 	Exit:
 	
@@ -368,12 +426,9 @@ void ClearScreen() {
 
 void SaveData() {
 	
-	
 	for (i=0; i<5; i++) {
 		
 		printf("%d", i);
-		
-		
 		
 	}
 	
@@ -390,6 +445,12 @@ void SaveData() {
 
     // Write variables to the file
     
+    fprintf(fptr, "%f4s", SingleLessonPrice);
+    printf("Single lesson price saved... \n");
+        
+    fprintf(fptr, "%f4s", GroupLessonPrice);
+    printf("Group lesson price saved... \n");
+	    
     //fprintf(fptr, "%29s", MasterKey);
     
     for (i = 0; i < MAX_STORAGE; i++) { // FOR..I loop to save passwords and IDs.
@@ -407,12 +468,68 @@ void SaveData() {
 	
 	
 	}
+	
+	
+// LOAD Function
+void Load() {
+	
+	printf("Loading...");
+	
+	 fptr = fopen("data.dat", "r");
+	
+    // Load the variable from the file
+	
+	if (fptr == NULL) {
+		
+		printf("Error opening file!\n");
+    	return;
+
+	}
+
+	// Read variables from the file
+		
+	fscanf(fptr, "%f4s", &SingleLessonPrice); // adjust buffer size based on your needs
+	printf("Single lesson price loaded... \n");
+	
+	fscanf(fptr, "%f4s", &GroupLessonPrice); // adjust buffer size based on your needs
+	printf("Group lesson price loaded... \n");
+	
+	//for (i = 0; i < MAX_STORAGE; i++) { // Corrected loop condition
+			
+		//fscanf(fptr, "%49s", &WebService[i]);	
+		//fscanf(fptr, "%49s", &ID[i]);
+		//fscanf(fptr, "%49s", &passwords[i]);
+	
+	//}
+
+	fclose(fptr);
+	ClearScreen();
+	    
+}
 
 void PaymentsDetails() {
 	
 	
 	
 	}
+
+void ChangePrices() {
+	
+	printf("CHANGE VARIABLES.... \n");
+	printf("Single lessons price: R$%.2f \n", SingleLessonPrice);
+	printf("Group lessons price: R$%.2f \n", GroupLessonPrice);
+	printf("\n");
+		
+	printf("Single lesson price? \n");
+	scanf("%f4s", &SingleLessonPrice);
+		
+	printf("Group lesson price? \n");
+	scanf("%f4s", &GroupLessonPrice);
+	
+	//const float SingleLessonPrice = 31;
+	//const float GroupLessonPrice = 25;
+	
+}
 
 // ================================= NOTES =======================================	
 	
