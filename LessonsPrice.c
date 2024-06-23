@@ -25,6 +25,7 @@ int MAX_STORAGE = 5;
 float SingleLessonPrice = 31;
 float GroupLessonPrice = 25;
 float DiscountValue = 10;
+float TotalValue = 1;
 
 //Switches
 
@@ -102,11 +103,16 @@ int main() {
 	ClearScreen();
 	
 	printf("\n");
-	printf("1- Generate Payment \n");
-	printf("2- Show Monthly Payments Log \n");
-	printf("3- Change Variables \n");
-	printf("10- SaveData \n");
-	printf("7- Exit \n\n");
+	printf(".===================================.\n");
+	printf("|  Monthly Payment Calculator 0.3   |\n");
+	printf(".===================================.\n");
+	printf("|                                   |\n");
+	printf("| [1] Generate Payment              |\n");
+	printf("| [2] Show Monthly Payments Log     | \n");
+	printf("| [3] Change Variables              | \n");
+	printf("| [7] Exit                          |\n");
+	printf("|                                   |\n");
+	printf(".===================================.\n\n");
 
 	scanf("%d", &Options);
 
@@ -128,13 +134,6 @@ int main() {
 			SaveData();
 			goto ProgramIni;
 			break;
-		
-		case 10:
-		
-			SaveData();
-			goto ProgramIni;
-			break;
-		
 		
 		case 7:
 			
@@ -256,14 +255,17 @@ int main() {
 			printf("\nAplying discount...\n");
 			Discount = (MonthPayment * DiscountValue) / 100;
 			PaymentWithDiscount = MonthPayment - Discount;
+			
 		}
 		
 		printf("Full monthly payment: R$ %.2f (No Discount) \n", MonthPayment);
+		TotalValue = MonthPayment;
 		
 		if (ApplyDiscount == 1){
 			
 			printf("Monthly payment with discount: R$%.2f (%.0f percent discount)", PaymentWithDiscount, DiscountValue);
-		
+			TotalValue = PaymentWithDiscount;
+			
 		}
 			
 		printf("\n\n==================================================================================================== \n\n");
@@ -273,6 +275,7 @@ int main() {
 			case 1:
 			
 				printf("%s, this month there are %.0f classes. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+				
 				
 				if (ApplyDiscount == 1) {
 					
@@ -329,14 +332,6 @@ int main() {
 				break;
 		}
 	
-	//} else {
-		
-	//	printf("No discount... \n");
-	
-	//	printf("\n");
-	//	printf("%s, esse mes sao %.0f aulas. %.0f * %.2f = *R$%.2f*.", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
-
-	//}
 	
 	printf("\n\n==================================================================================================== \n");
 	
@@ -348,11 +343,15 @@ int main() {
 	
 	printf(" Generate receipt? [Y/N]: \n\n");
 	
-	printf("*Payment Received*\n");
-	printf("*====== ======*\n\n");
+	printf("*.====================.*\n");
+	printf("*|  :receipt Payment Received   |*\n");
+	printf("*.====================.*\n\n");
 	
-	printf("*Name:* %s \n", StudentName);
-	printf("*Month:* %s \n", Month);
+	printf("*Student Name:* %s \n", StudentName);
+	printf("*Month Paid:* %s \n", Month);
+	printf("*Total Price:* R$%.2f \n\n", TotalValue);
+	
+	printf("*.====================.*\n");
 	
 	Exit:
 	
@@ -381,6 +380,7 @@ int main() {
 		
 		default:
 			
+			SaveData();
 			goto Exit;
 			break;
 	
