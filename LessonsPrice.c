@@ -102,7 +102,7 @@ int main() {
 	ProgramIni:
 	ClearScreen();
 	
-	printf("\n");
+	printf("\n\n");
 	printf(".===================================.\n");
 	printf("|  Monthly Payment Calculator 0.3   |\n");
 	printf(".===================================.\n");
@@ -151,11 +151,18 @@ int main() {
 
 	AskLanguage:
 	ClearScreen();
-	
+		
 	printf("\n\n");
-	printf("1- English \n");
-	printf("2- Spanish \n");
-	printf("3- Portuguese \n");
+	printf(".===================================.\n");
+	printf("|            Language?              |\n");
+	printf(".===================================.\n");
+	printf("|                                   |\n");
+	printf("| [1] English                       |\n");
+	printf("| [2] Spanish                       | \n");
+	printf("| [3] Portuguese                    | \n");
+	printf("|                                   |\n");
+    printf("|                                   |\n");
+	printf(".===================================.\n\n");
 	
 	scanf("%d", &Options);
 	
@@ -184,13 +191,21 @@ int main() {
 	}
 
 	AskGroup:
+	ClearScreen();
 	
 	printf("\n\n");
-	printf("1- Individual Lessons \n");
-	printf("2- Group Lessons \n");
-	
+	printf(".===================================.\n");
+	printf("|          Kind of Lessons?         |\n");
+	printf(".===================================.\n");
+	printf("|                                   |\n");
+	printf("| [1] Individual Lessons            |\n");
+	printf("| [2] Group Lessons                 | \n");
+	printf("|                                   | \n");
+	printf("|                                   |\n");
+    printf("|                                   |\n");
+	printf(".===================================.\n\n");
+		
 	scanf("%d", &Options);
-	
 	
 	switch(Options){
 		
@@ -214,7 +229,7 @@ int main() {
 	printf("\nStudent Name: ");
 	scanf("%14s", &StudentName);
 	
-	printf("\nMonth of Payment: ");
+	printf("Month of Payment: ");
 	scanf("%14s", &Month);
 	
 	printf("Number of lessons: ");
