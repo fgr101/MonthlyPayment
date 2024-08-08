@@ -13,6 +13,28 @@ This project is a simple payment management system for language lessons written 
 **Discount Option**: Users can apply a discount to their payment, with the discount amount configurable through a constant in the code.
 **Clear Screen Functionality:** The program includes a function to clear the console screen for better user experience.
 
+
+**Updates:**
+
+//  0.4
+//* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
+//* Create txt file with payments entries. Payments registry.
+
+//  0.3
+//* Variables such as SINGLE LESSON PRICE, GROUP LESSON PRICE and DISCOUNT
+//  VALUE can be modified, saved and stored in memory.
+//* General visuals improved.
+//* Main Menu improved.
+
+//  0.2
+//* Generate receipt.[50%]
+//* Add languages feature. Final messages in Spanish, English and Portuguese. [100%]
+//* Don't show discount messages and information when there's NO discount applied. [100%]
+
+//  0.1
+//* Basic structure of the program created. First options and basic
+//  functionalities developed.
+
 **File Structure:**
 
 **main.c:** Contains the main source code for the program, including the main() function and other supporting functions.
