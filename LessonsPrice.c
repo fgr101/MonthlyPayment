@@ -8,12 +8,11 @@
 
 //Functions Declaration
 
-void PaymentsDetails();
 void SaveData();
 void Load();
-void StoreInArrays();
 void ClearScreen();
 void ChangePrices();
+void NewEntryFile();
 
 
 // Constants
@@ -49,12 +48,6 @@ float Price;
 float Discount;
 float MonthPayment;
 float PaymentWithDiscount;
-
-//Arrays
-
-//char StoreName[50]; 
-//char StoreMonth[50];
-//float StorePayValue[10];
 
 FILE *fptr; // Declare the file pointer globally
 
@@ -104,7 +97,7 @@ int main() {
 	
 	printf("\n\n");
 	printf(".===================================.\n");
-	printf("|  Monthly Payment Calculator 0.3   |\n");
+	printf("|  Monthly Payment Calculator 0.4   |\n");
 	printf(".===================================.\n");
 	printf("|                                   |\n");
 	printf("| [1] Generate Payment              |\n");
@@ -283,15 +276,20 @@ int main() {
 			
 		}
 			
+		//--------------------------------------------------------------
+		
+		NewEntryFile();	// Add information to the 'payments.txt' file.
+		
+		//--------------------------------------------------------------
+		
 		printf("\n\n==================================================================================================== \n\n");
 		
 		switch(Language){
 			
 			case 1:
 			
-				printf("%s, this month there are %.0f classes. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
-				
-				
+				printf("%s, this month (%s) there are %.0f classes. _%.0f * %.2f = R$%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+								
 				if (ApplyDiscount == 1) {
 					
 					printf(" --> with the %.0f percent discount it would be: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
@@ -308,7 +306,7 @@ int main() {
 					
 			case 2: 
 				
-				printf("%s, este mes son %.0f clases. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+				printf("%s, este mes (%s) son %.0f clases. _%.0f * %.2f = R$%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
 				
 				if (ApplyDiscount == 1) {
 					
@@ -326,7 +324,7 @@ int main() {
 			
 			case 3:
 				
-				printf("%s, esse mes sao %.0f aulas. _%.0f * %.2f = R$%.2f_", StudentName, HoursNumber, HoursNumber, Price, MonthPayment);
+				printf("%s, esse mes (%s) sao %.0f aulas. _%.0f * %.2f = R$%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
 				
 				if (ApplyDiscount == 1) {
 					
@@ -350,9 +348,6 @@ int main() {
 	
 	printf("\n\n==================================================================================================== \n");
 	
-	// STORING IN ARRAYS AND SAVING DATA
-	
-	StoreInArrays();
 	
 	// Generate payment receipt.
 	
@@ -405,25 +400,6 @@ int main() {
 	
 }
 
-void StoreInArrays() {
-	
-	for (i=0; i<MAX_STORAGE; i++) {
-		
-		//if (strcmp(StoreName[i], "") == 0 && StorePayValue[i] == 0) {
-			
-			// StoreMonth[i] =
-			//StoreName[i] = StudentName; //??????
-			//StorePayValue[i] = MonthPayment;
-			//printf("Stored in Arrays"); 
-			//printf("%d", i);
-			//break;
-			
-		//}
-			
-	}
-
-}
-
 //CLS Function
 void ClearScreen() {
 
@@ -441,13 +417,28 @@ void ClearScreen() {
 
 }
 
-void SaveData() {
+void NewEntryFile() {
 	
-	//for (i=0; i<5; i++) {
+	printf("Adding new entry to 'payments.txt' file...");
+	
+	// Save the variable to a file
+	fptr = fopen("payments.txt", "a");
+	
+	if (fptr == NULL) {
 		
-		//printf("%d", i);
-		
-	//}
+		printf("Error opening file!\n");
+		return;
+	}
+
+    // Write variables to the file
+    fprintf(fptr, "* %s [%s] R$%.2f\n", StudentName, Month, TotalValue);
+     
+	fclose(fptr);
+	
+	}
+
+
+void SaveData() {
 	
 	printf("Saving...");
 	
@@ -470,19 +461,7 @@ void SaveData() {
     printf("Group lesson price saved: %.2f\n", GroupLessonPrice);
     printf("Discount value saved: %.2f\n", DiscountValue);
 	    
-    //for (i = 0; i < MAX_STORAGE; i++) { // FOR..I loop to save passwords and IDs.
-        
-        //fprintf(fptr, "%49s", WebService[i]);
-        //fprintf(fptr, "%49s", ID[i]);
-        //fprintf(fptr, "%49s", passwords[i]);
-    //}
-
-
 	fclose(fptr);
-	
-	//ClearScreen();
-		
-	
 	
 	}
 	
@@ -512,24 +491,10 @@ void Load() {
     printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
     printf("Discount value loaded: %.2f\n", DiscountValue);
 	
-	//for (i = 0; i < MAX_STORAGE; i++) { // Corrected loop condition
-			
-		//fscanf(fptr, "%49s", &WebService[i]);	
-		//fscanf(fptr, "%49s", &ID[i]);
-		//fscanf(fptr, "%49s", &passwords[i]);
-	
-	//}
-
 	fclose(fptr);
 	ClearScreen();
 	    
 }
-
-void PaymentsDetails() {
-	
-	
-	
-	}
 
 void ChangePrices() {
 	
@@ -555,13 +520,39 @@ void ChangePrices() {
 // TO DO
 // =====
 
-//* Generate receipt.
+//* Show 'payments.txt' entries in the program. Print entries on the screen.
+//* Open 'payments.txt' from the program.
+//* Manage 'payments.txt' from the program. Delete/edit entries.
+//* Add DATES and TIME in payments logs.
+
+//  Ability to view and manage the payment entries stored in the payments.txt 
+//  file directly from the program. This could include features like viewing the 
+//  payment history, editing or deleting entries, and potentially generating 
+//  reports.
 
 // DONE
 // ====
 
+//  0.4
+//* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
+//* Create txt file with payments entries. Payments registry.
+
+//  0.3
+//* Variables such as SINGLE LESSON PRICE, GROUP LESSON PRICE and DISCOUNT
+//  VALUE can be modified, saved and stored in memory.
+//* General visuals improved.
+//* Main Menu improved.
+
+//  0.2
+//* Generate receipt.[50%]
 //* Add languages feature. Final messages in Spanish, English and Portuguese. [100%]
 //* Don't show discount messages and information when there's NO discount applied. [100%]
+
+//  0.1
+//* Basic structure of the program created. First options and basic
+//  functionalities developed.
+
+
 
 
 
