@@ -16,24 +16,24 @@ This project is a simple payment management system for language lessons written 
 
 **Updates:**
 
-//  0.4
-//* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
-//* Create txt file with payments entries. Payments registry.
+  0.4
+* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
+* Create txt file with payments entries. Payments registry.
 
-//  0.3
-//* Variables such as SINGLE LESSON PRICE, GROUP LESSON PRICE and DISCOUNT
-//  VALUE can be modified, saved and stored in memory.
-//* General visuals improved.
-//* Main Menu improved.
+  0.3
+* Variables such as SINGLE LESSON PRICE, GROUP LESSON PRICE and DISCOUNT
+  VALUE can be modified, saved and stored in memory.
+* General visuals improved.
+* Main Menu improved.
 
-//  0.2
-//* Generate receipt.[50%]
-//* Add languages feature. Final messages in Spanish, English and Portuguese. [100%]
-//* Don't show discount messages and information when there's NO discount applied. [100%]
+  0.2
+* Generate receipt.[50%]
+* Add languages feature. Final messages in Spanish, English and Portuguese. [100%]
+* Don't show discount messages and information when there's NO discount applied. [100%]
 
-//  0.1
-//* Basic structure of the program created. First options and basic
-//  functionalities developed.
+  0.1
+* Basic structure of the program created. First options and basic
+  functionalities developed.
 
 **File Structure:**
 
