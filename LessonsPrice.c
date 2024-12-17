@@ -1,4 +1,4 @@
-#include <stdio.h>	 //*This is the STANDARD LIBRARY for C.
+#include <stdio.h>	//*This is the STANDARD LIBRARY for C.
 #include <string.h> //*This is the library to work with strings.
 #include <unistd.h> //*Include this for access function. Required for sleep() on Unix-like systems
 
@@ -508,7 +508,6 @@ void SaveData() {
 	
 	}
 	
-	
 // LOAD Function
 void Load() {
 	
@@ -544,33 +543,60 @@ void Load() {
 
 void ChangePrices() {
 	
+	AskVariablesAgain:
 	ClearScreen();
-	
-	printf("CHANGE VARIABLES.... \n\n");
-	
-	printf("Brazil: \n\n");
 
-    printf("Single lesson price: R$%.2f [BRL]\n", SingleLessonPrice);
-    printf("Group lesson price: R$%.2f [BRL]\n", GroupLessonPrice);
-    printf("Discount value: %.2f [percentage]\n\n", DiscountValue);
-    
-    printf("Argentina: \n\n");
-    
-    printf("Argentina price loaded: $%.2f [ARS]\n", ArgPrice);
-    printf("\n");
-		
-	printf("Single lesson price? \n");
-	scanf("%f4s", &SingleLessonPrice);
-		
-	printf("Group lesson price? \n");
-	scanf("%f4s", &GroupLessonPrice);
 	
-	printf("Discount value? \n");
-	scanf("%f4s", &DiscountValue);
+	printf("\n\n");
+	printf(".===================================.          Argentina's price: $%.2f [ARS]\n", ArgPrice);
+	printf("|         Change Variables          |          Brazil single lesson price: R$%.2f [BRL]\n", SingleLessonPrice);
+	printf(".===================================.          Brazil group lesson price: R$%.2f [BRL]\n", GroupLessonPrice);
+	printf("|                                   |          Brazil discount value: %.2f [percentage]\n\n", DiscountValue);
+	printf("| [1] Argentina [ARS]               |\n");
+	printf("| [2] Brazil [BRL]                  | \n");
+	printf("| [7] Go Back                       | \n");
+	printf("|                                   |\n");
+    printf("|                                   |\n");
+	printf(".===================================.\n\n");
+		
+	scanf("%d", &Options);
 	
-	printf("Argentina's price? \n");
-	scanf("%f4s", &ArgPrice);
+	switch(Options){
+		
+		case 1:
+		
+			printf("\nArgentina's price? \n");
+			scanf("%f4s", &ArgPrice);
+			
+			goto AskVariablesAgain;
+			break;
+		
+		case 2:
+
+			printf("\nSingle lesson price? \n");
+			scanf("%f4s", &SingleLessonPrice);
 				
+			printf("\nGroup lesson price? \n");
+			scanf("%f4s", &GroupLessonPrice);
+			
+			printf("\nDiscount value? \n");
+			scanf("%f4s", &DiscountValue);
+
+			goto AskVariablesAgain;
+			break;
+		
+		case 7:
+		
+			return;
+			break;
+			
+		default:
+		
+			goto AskVariablesAgain;
+			break;
+	
+	}
+			
 }
 
 void ArgMarket() {
@@ -716,6 +742,8 @@ void GoBackMenu() {
 	}
 
 }
+	
+
 
 // ================================= NOTES =======================================	
 	
