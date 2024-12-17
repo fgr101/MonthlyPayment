@@ -13,6 +13,8 @@ void Load();
 void ClearScreen();
 void ChangePrices();
 void NewEntryFile();
+void ArgMarket();
+void GoBackMenu();
 
 
 // Constants
@@ -23,6 +25,7 @@ int MAX_STORAGE = 5;
 
 float SingleLessonPrice = 31;
 float GroupLessonPrice = 25;
+float ArgPrice = 3125;
 float DiscountValue = 10;
 float TotalValue = 1;
 
@@ -97,7 +100,7 @@ int main() {
 	
 	printf("\n\n");
 	printf(".===================================.\n");
-	printf("|  Monthly Payment Calculator 0.4   |\n");
+	printf("|  Monthly Payment Calculator 0.5   |\n");
 	printf(".===================================.\n");
 	printf("|                                   |\n");
 	printf("| [1] Generate Payment              |\n");
@@ -178,9 +181,47 @@ int main() {
 			
 		default:
 		
-			goto AskLanguage;
+			goto AskCountry;
 			break;
 	
+	}
+	
+	AskCountry:
+	ClearScreen();
+	
+	printf("\n\n");
+	printf(".===================================.\n");
+	printf("|   Currency and Country Target?    |\n");
+	printf(".===================================.\n");
+	printf("|                                   |\n");
+	printf("| [1] Brazil [BRL]                  |\n");
+	printf("| [2] Argentina [ARS]               |\n");
+	printf("|                                   |\n");
+    printf("|                                   |\n");
+	printf(".===================================.\n\n");
+
+	scanf("%d", &Options);
+	
+	switch(Options) {
+		
+		case 1:
+		
+			goto AskGroup;
+			break;
+			
+		case 2:
+		
+			//CALL ARGENTINA'S SUB FUNCTION
+			
+			ArgMarket();
+			return 0;
+			break;
+			
+		default:
+		
+			goto AskGroup;
+			break;
+		
 	}
 
 	AskGroup:
@@ -456,10 +497,12 @@ void SaveData() {
     fprintf(fptr, "%f\n", SingleLessonPrice);
     fprintf(fptr, "%f\n", GroupLessonPrice);
     fprintf(fptr, "%f\n", DiscountValue);
+    fprintf(fptr, "%f\n", ArgPrice);
     
     printf("Single lesson price saved: %.2f\n", SingleLessonPrice);
     printf("Group lesson price saved: %.2f\n", GroupLessonPrice);
     printf("Discount value saved: %.2f\n", DiscountValue);
+	printf("Argentina's price saved: %.2f\n", ArgPrice);
 	    
 	fclose(fptr);
 	
@@ -486,10 +529,13 @@ void Load() {
     fscanf(fptr, "%f", &SingleLessonPrice);
     fscanf(fptr, "%f", &GroupLessonPrice);
     fscanf(fptr, "%f", &DiscountValue);
+    fscanf(fptr, "%f", &ArgPrice);
 
     printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
     printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
     printf("Discount value loaded: %.2f\n", DiscountValue);
+    printf("Argentina's price loaded: %.2f\n", ArgPrice);
+
 	
 	fclose(fptr);
 	ClearScreen();
@@ -498,10 +544,19 @@ void Load() {
 
 void ChangePrices() {
 	
-	printf("CHANGE VARIABLES.... \n");
-    printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
-    printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
-    printf("Discount value loaded: %.2f\n", DiscountValue);
+	ClearScreen();
+	
+	printf("CHANGE VARIABLES.... \n\n");
+	
+	printf("Brazil: \n\n");
+
+    printf("Single lesson price: R$%.2f [BRL]\n", SingleLessonPrice);
+    printf("Group lesson price: R$%.2f [BRL]\n", GroupLessonPrice);
+    printf("Discount value: %.2f [percentage]\n\n", DiscountValue);
+    
+    printf("Argentina: \n\n");
+    
+    printf("Argentina price loaded: $%.2f [ARS]\n", ArgPrice);
     printf("\n");
 		
 	printf("Single lesson price? \n");
@@ -512,13 +567,162 @@ void ChangePrices() {
 	
 	printf("Discount value? \n");
 	scanf("%f4s", &DiscountValue);
+	
+	printf("Argentina's price? \n");
+	scanf("%f4s", &ArgPrice);
 				
+}
+
+void ArgMarket() {
+		
+	printf("\nStudent Name: ");
+	scanf("%14s", &StudentName);
+	
+	printf("Month of Payment: ");
+	scanf("%14s", &Month);
+	
+	printf("Number of lessons: ");
+	scanf("%f", &HoursNumber);
+	
+	printf("Individual Lessons... \n");
+	Price = ArgPrice;
+		
+	MonthPayment = Price * HoursNumber;
+	
+	ClearScreen();
+	
+	printf("\n\n"); 
+	printf("Full Monthly Payment: ARS $%.2f \n\n", MonthPayment);
+	
+	TotalValue = MonthPayment;
+					
+	//--------------------------------------------------------------
+		
+	NewEntryFile();	// Add information to the 'payments.txt' file.
+		
+	//--------------------------------------------------------------
+		
+	//==================================================================
+	
+	printf("\n\n==================================================================================================== \n\n");
+		
+	switch(Language){
+			
+		case 1:
+			
+			printf("%s, this month (%s) there are %.0f classes. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+								
+			
+			//if (ApplyDiscount == 1) {
+					
+				//printf(" --> with the %.0f percent discount it would be: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				
+			//}
+				
+			
+			//if (ApplyDiscount == 0) {
+					
+				//printf(" --> No discount applied.");
+				
+			//}
+				
+			break;		
+					
+		
+		case 2: 
+						
+			printf("%s, este mes (%s) son %.0f clases. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+						
+			//if (ApplyDiscount == 1) {
+					
+				//printf("--> con el %.0f porciento de descuento quedaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				
+			//}
+			
+			
+			//if (ApplyDiscount == 0) {
+					
+				//printf(" --> Sin descuento aplicado.");
+				
+			//}
+				
+			break;
+			
+		case 3:
+				
+			printf("%s, esse mes (%s) sao %.0f aulas. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+				
+			//if (ApplyDiscount == 1) {
+					
+				//printf("--> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
+				
+			//}
+				
+			//if (ApplyDiscount == 0) {
+					
+				//printf(" --> Sem desconto.");
+				
+			//}
+				
+			break;
+				
+		default:
+			
+			break;
+	
+	}
+	
+	printf("\n\n==================================================================================================== \n");
+	
+	GoBackMenu();
+	
+}
+
+void GoBackMenu() {
+	
+	Exit2:
+		
+	printf("\n\n1- Do Another Payment \n");
+	printf("2- Main Menu \n");
+	printf("7- Exit... \n");
+	scanf("%d2s", &Options);
+	
+	switch(Options){
+		
+		//case 1:
+		
+			//goto AskLanguage;
+			//return;
+			//break;
+		
+		case 2:
+		
+			main();
+			return;
+			break;
+		
+		case 7:
+		
+			ClearScreen();
+			return;
+			break;
+		
+		default:
+			
+			SaveData();
+			goto Exit2;
+			break;
+	
+	}
+
 }
 
 // ================================= NOTES =======================================	
 	
 // TO DO
 // =====
+
+//* Improve menu in the MODIFY VARIABLES section.
 
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
@@ -532,6 +736,10 @@ void ChangePrices() {
 
 // DONE
 // ====
+
+//  0.5
+//* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
+//* User can modify variables related to payments in ARS currency. 
 
 //  0.4
 //* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
