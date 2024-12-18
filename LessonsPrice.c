@@ -15,6 +15,7 @@ void ChangePrices();
 void NewEntryFile();
 void ArgMarket();
 void GoBackMenu();
+void GeneratePayment();
 
 
 // Constants
@@ -34,6 +35,7 @@ float TotalValue = 1;
 int LessonMode = 0;
 int Language = 3;
 int ApplyDiscount = 0;
+int Market = 2;
 
 // Inputs
 
@@ -194,8 +196,8 @@ int main() {
 	printf("|   Currency and Country Target?    |\n");
 	printf(".===================================.\n");
 	printf("|                                   |\n");
-	printf("| [1] Brazil [BRL]                  |\n");
-	printf("| [2] Argentina [ARS]               |\n");
+	printf("| [1] Argentina [ARS]               |\n");
+	printf("| [2] Brazil [BRL]                  |\n");
 	printf("|                                   |\n");
     printf("|                                   |\n");
 	printf(".===================================.\n\n");
@@ -203,19 +205,22 @@ int main() {
 	scanf("%d", &Options);
 	
 	switch(Options) {
-		
+	
 		case 1:
-		
-			goto AskGroup;
-			break;
-			
-		case 2:
 		
 			//CALL ARGENTINA'S SUB FUNCTION
 			
+			Market = 1;
 			ArgMarket();
 			return 0;
 			break;
+		
+		case 2:
+			
+			Market = 2;
+			goto AskGroup;
+			break;
+			
 			
 		default:
 		
@@ -460,7 +465,7 @@ void ClearScreen() {
 
 void NewEntryFile() {
 	
-	printf("Adding new entry to 'payments.txt' file...");
+	printf("\nAdding new entry to 'payments.txt' file...");
 	
 	// Save the variable to a file
 	fptr = fopen("payments.txt", "a");
@@ -637,20 +642,6 @@ void ArgMarket() {
 		case 1:
 			
 			printf("%s, this month (%s) there are %.0f classes. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
-								
-			
-			//if (ApplyDiscount == 1) {
-					
-				//printf(" --> with the %.0f percent discount it would be: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
-				
-			//}
-				
-			
-			//if (ApplyDiscount == 0) {
-					
-				//printf(" --> No discount applied.");
-				
-			//}
 				
 			break;		
 					
@@ -658,38 +649,13 @@ void ArgMarket() {
 		case 2: 
 						
 			printf("%s, este mes (%s) son %.0f clases. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
-						
-			//if (ApplyDiscount == 1) {
-					
-				//printf("--> con el %.0f porciento de descuento quedaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
-				
-			//}
-			
-			
-			//if (ApplyDiscount == 0) {
-					
-				//printf(" --> Sin descuento aplicado.");
-				
-			//}
 				
 			break;
 			
 		case 3:
 				
 			printf("%s, esse mes (%s) sao %.0f aulas. _%.0f * %.2f = $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
-				
-			//if (ApplyDiscount == 1) {
-					
-				//printf("--> com o %.0f porcento de desconto ficaria: %.2f - %.2f = *R$%.2f*.", DiscountValue, MonthPayment, Discount, PaymentWithDiscount);
-				
-			//}
-				
-			//if (ApplyDiscount == 0) {
-					
-				//printf(" --> Sem desconto.");
-				
-			//}
-				
+			
 			break;
 				
 		default:
@@ -700,6 +666,7 @@ void ArgMarket() {
 	
 	printf("\n\n==================================================================================================== \n");
 	
+	GeneratePayment();
 	GoBackMenu();
 	
 }
@@ -742,7 +709,28 @@ void GoBackMenu() {
 	}
 
 }
+
+void GeneratePayment() {
 	
+	// Generate payment receipt.
+	
+	printf(" Generate receipt? [Y/N]: \n\n");
+	
+	printf("*.====================.*\n");
+	printf("*|  :receipt Payment Received   |*\n");
+	printf("*.====================.*\n\n");
+	
+	printf("*Student Name:* %s \n", StudentName);
+	printf("*Month Paid:* %s \n", Month);
+	
+	if (Market == 1) { printf("*Total Price:* ARS $%.2f \n\n", TotalValue);}
+	if (Market == 2) { printf("*Total Price:* R$%.2f \n\n", TotalValue);}
+	
+	printf("*.====================.*\n");
+
+	return;
+
+}
 
 
 // ================================= NOTES =======================================	
@@ -750,7 +738,7 @@ void GoBackMenu() {
 // TO DO
 // =====
 
-//* Improve menu in the MODIFY VARIABLES section.
+// * Show receipt for ARG payments as done in Brazilian payments.
 
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
@@ -768,6 +756,8 @@ void GoBackMenu() {
 //  0.5
 //* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
 //* User can modify variables related to payments in ARS currency. 
+//* MENU Improved in the CHANGE VARIABLES section.
+
 
 //  0.4
 //* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
@@ -787,11 +777,3 @@ void GoBackMenu() {
 //  0.1
 //* Basic structure of the program created. First options and basic
 //  functionalities developed.
-
-
-
-
-
-
-
-
