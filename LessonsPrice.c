@@ -17,7 +17,6 @@ void ArgMarket();
 void GoBackMenu();
 void GeneratePayment();
 
-
 // Constants
 
 int MAX_STORAGE = 5;
@@ -394,20 +393,7 @@ int main() {
 	
 	printf("\n\n==================================================================================================== \n");
 	
-	
-	// Generate payment receipt.
-	
-	printf(" Generate receipt? [Y/N]: \n\n");
-	
-	printf("*.====================.*\n");
-	printf("*|  :receipt Payment Received   |*\n");
-	printf("*.====================.*\n\n");
-	
-	printf("*Student Name:* %s \n", StudentName);
-	printf("*Month Paid:* %s \n", Month);
-	printf("*Total Price:* R$%.2f \n\n", TotalValue);
-	
-	printf("*.====================.*\n");
+	GeneratePayment(); // Generate payment receipt.
 	
 	Exit:
 	
@@ -632,8 +618,6 @@ void ArgMarket() {
 	NewEntryFile();	// Add information to the 'payments.txt' file.
 		
 	//--------------------------------------------------------------
-		
-	//==================================================================
 	
 	printf("\n\n==================================================================================================== \n\n");
 		
@@ -666,8 +650,8 @@ void ArgMarket() {
 	
 	printf("\n\n==================================================================================================== \n");
 	
-	GeneratePayment();
-	GoBackMenu();
+	GeneratePayment(); // Generate payment receipt.
+	GoBackMenu(); // Show GO BACK menu.
 	
 }
 
@@ -732,13 +716,10 @@ void GeneratePayment() {
 
 }
 
-
 // ================================= NOTES =======================================	
 	
 // TO DO
 // =====
-
-// * Show receipt for ARG payments as done in Brazilian payments.
 
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
@@ -757,7 +738,7 @@ void GeneratePayment() {
 //* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
 //* User can modify variables related to payments in ARS currency. 
 //* MENU Improved in the CHANGE VARIABLES section.
-
+//* Show receipt for ARG payments as done in Brazilian payments [OK].
 
 //  0.4
 //* Lines in 'payments.txt' are ADDED, APPENDED ['a'] instead of REWRITTEN ['w+'].
