@@ -16,6 +16,8 @@ void NewEntryFile();
 void ArgMarket();
 void GoBackMenu();
 void GeneratePayment();
+void TimeDifferenceSUB();
+void ConfigMenu();
 
 // Constants
 
@@ -52,6 +54,14 @@ float Price;
 float Discount;
 float MonthPayment;
 float PaymentWithDiscount;
+
+// New and Old students differences
+
+float NewSinglePriceBR = 34;
+float NewGroupPriceBR = 25;
+
+int TimeDifferenceMODE = 0; // Switch to turn ON and OFF this mode.
+int NewOrOld; // Switch that differenciates older from newer students. 0 means OLD, 1 means NEW.
 
 FILE *fptr; // Declare the file pointer globally
 
@@ -106,7 +116,7 @@ int main() {
 	printf("|                                   |\n");
 	printf("| [1] Generate Payment              |\n");
 	printf("| [2] Show Monthly Payments Log     | \n");
-	printf("| [3] Change Variables              | \n");
+	printf("| [3] Configuration                 | \n");
 	printf("| [7] Exit                          |\n");
 	printf("|                                   |\n");
 	printf(".===================================.\n\n");
@@ -127,7 +137,7 @@ int main() {
 		case 3:
 			
 			//CHANGE VARIABLES
-			ChangePrices();
+			ConfigMenu();
 			SaveData();
 			goto ProgramIni;
 			break;
@@ -237,15 +247,15 @@ int main() {
 	printf(".===================================.\n");
 	printf("|                                   |\n");
 	printf("| [1] Individual Lessons            |\n");
-	printf("| [2] Group Lessons                 | \n");
-	printf("|                                   | \n");
+	printf("| [2] Group Lessons                 |\n");
+	printf("|                                   |\n");
 	printf("|                                   |\n");
     printf("|                                   |\n");
 	printf(".===================================.\n\n");
 		
 	scanf("%d", &Options);
 	
-	switch(Options){
+	switch(Options) { //MEJORAR TODA ESTA PARTE, QUEDA REDUNDANTE
 		
 		case 1:
 		
@@ -264,6 +274,29 @@ int main() {
 	
 	}
 	
+	switch (LessonMode) { //MEJORAR TODA ESTA PARTE, QUEDA REDUNDANTE
+		
+		case 0:
+			
+			printf("Individual Lessons... \n");
+			Price = SingleLessonPrice;
+			break;
+		
+		case 1:
+			
+			printf("Group Lessons... \n");
+			Price = GroupLessonPrice;
+			break;
+			
+	}
+	
+	//==================================================================
+	// Ask about TIME DIFFERENCE MODE.
+	
+	if (TimeDifferenceMODE == 1) { TimeDifferenceSUB();}
+	
+	//==================================================================
+		
 	printf("\nStudent Name: ");
 	scanf("%14s", &StudentName);
 	
@@ -273,18 +306,6 @@ int main() {
 	printf("Number of lessons: ");
 	scanf("%f", &HoursNumber);
 	
-	if (LessonMode == 0) {
-		
-		printf("Individual Lessons... \n");
-		Price = SingleLessonPrice;
-		
-	} else {
-		
-		printf("Group Lessons... \n");
-		Price = GroupLessonPrice;
-		
-	}
-		
 	MonthPayment = Price * HoursNumber;   
 	
 	ClearScreen();
@@ -542,10 +563,10 @@ void ChangePrices() {
 	printf(".===================================.          Argentina's price: $%.2f [ARS]\n", ArgPrice);
 	printf("|         Change Variables          |          Brazil single lesson price: R$%.2f [BRL]\n", SingleLessonPrice);
 	printf(".===================================.          Brazil group lesson price: R$%.2f [BRL]\n", GroupLessonPrice);
-	printf("|                                   |          Brazil discount value: %.2f [percentage]\n\n", DiscountValue);
-	printf("| [1] Argentina [ARS]               |\n");
-	printf("| [2] Brazil [BRL]                  | \n");
-	printf("| [7] Go Back                       | \n");
+	printf("|                                   |          Brazil single lesson price for new students: R$%.2f [BRL]\n", NewSinglePriceBR);
+	printf("| [1] Argentina [ARS]               |          Brazil group lesson price for new students: R$%.2f [BRL]\n", NewGroupPriceBR);
+	printf("| [2] Brazil [BRL]                  |          Brazil discount value: %.2f [percentage]\n", DiscountValue);
+	printf("| [7] Go Back                       |\n");
 	printf("|                                   |\n");
     printf("|                                   |\n");
 	printf(".===================================.\n\n");
@@ -569,6 +590,12 @@ void ChangePrices() {
 				
 			printf("\nGroup lesson price? \n");
 			scanf("%f4s", &GroupLessonPrice);
+
+			printf("\nNew students SINGLE lesson price? \n");
+			scanf("%f4s", &NewSinglePriceBR);
+
+			printf("\nNew students GROUP lesson price? \n");
+			scanf("%f4s", &NewGroupPriceBR);
 			
 			printf("\nDiscount value? \n");
 			scanf("%f4s", &DiscountValue);
@@ -716,10 +743,129 @@ void GeneratePayment() {
 
 }
 
+void TimeDifferenceSUB() {
+	
+	AskTimeDifferenceAgain:
+	ClearScreen();
+	
+	printf("\n\n");
+	printf(".===================================.\n");
+	printf("|   Is it a NEW or OLD student?     |\n");
+	printf(".===================================.\n");
+	printf("|                                   |\n");
+	printf("| [1] Old Student                   |\n");
+	printf("| [2] New Student                   |\n");
+	printf("|                                   |\n");
+    printf("|                                   |\n");
+	printf(".===================================.\n\n");
+
+	scanf("%d", &Options);
+	
+	switch(Options) {
+	
+		case 1:
+		
+			NewOrOld = 0; //Old student
+			return;
+			break;
+		
+		case 2:
+			
+			NewOrOld = 1; //NewStudent
+			
+			if (LessonMode == 0) {
+				
+				Price = NewSinglePriceBR;
+			
+			} else { Price = NewGroupPriceBR; }
+
+			return;
+			break;
+			
+			
+		default:
+		
+			goto AskTimeDifferenceAgain;
+			break;
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+}
+
+void ConfigMenu() {
+	
+	ConfigMenuIni:
+	ClearScreen();
+	
+	printf("\n\n");
+	printf(".==========================================.\n");
+	printf("|      Monthly Payment Calculator 0.5      |\n");
+	printf(".==========================================.\n");
+	printf("|                                          |\n");
+
+if (TimeDifferenceMODE == 0) {printf("| [1] Change prices for NEW students [OFF] |\n");}
+if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON]  |\n");}
+
+	printf("| [2] Change Variables                     |\n");
+	printf("|                                          |\n");
+	printf("| [7] Go Back                              |\n");
+	printf("|                                          |\n");
+	printf(".==========================================.\n\n");
+
+	scanf("%d", &Options);
+
+	switch(Options){
+		
+		case 1:
+			
+			if (TimeDifferenceMODE == 0) {TimeDifferenceMODE = 1; goto ConfigMenuIni;}
+			if (TimeDifferenceMODE == 1) {TimeDifferenceMODE = 0; goto ConfigMenuIni;}
+			break;
+		
+		case 2:
+		
+			//CHANGE VARIABLES
+			
+			ChangePrices();
+			SaveData();
+			goto ConfigMenuIni;
+			break;
+			
+		case 7:
+			
+			SaveData();
+			ClearScreen();
+			return;
+			break;
+			
+		default:
+		
+			goto ConfigMenuIni;
+			break;
+	
+	}
+
+	
+	
+}
+
 // ================================= NOTES =======================================	
 	
 // TO DO
 // =====
+
+//* Options for each students (country, single, group, old or new, etc.) 
+//  are saved in memory and automaticly loaded.
+
+//* UPDATE the SAVE and LOAD subfunctions with all these new varialbles
+//  used for price differences between long-standing students and new students.
 
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
@@ -733,6 +879,13 @@ void GeneratePayment() {
 
 // DONE
 // ====
+
+// 0.6
+//* It is now possible to assign a different price for new students compared to long-standing students.
+//* The program can differentiate between new students and long-standing students, and charge different rates for each.
+//* Additional variables have been added as well. The 'Change Variables' section has been updated.
+//* You can activate and deactivate this mode, which includes price differences between long-standing 
+//  students and new students, from the Configuration menu.
 
 //  0.5
 //* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
