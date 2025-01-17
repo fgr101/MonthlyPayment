@@ -1,4 +1,4 @@
-**Language Lesson Payment Management System - README**
+**Lesson Payment Management System - README**
 
 Overview:
 
