@@ -136,7 +136,7 @@ int main() {
 			
 		case 3:
 			
-			//CHANGE VARIABLES
+			//CONFIGURATION
 			ConfigMenu();
 			SaveData();
 			goto ProgramIni;
@@ -505,15 +505,30 @@ void SaveData() {
 	}
 
     // Write variables to the file
+    //==================================================================
+    
+    // Config variables
+    //=================
+    
+    fprintf(fptr, "%d\n", TimeDifferenceMODE);
+    
+    printf("Config: Time Difference MODE [%d]\n", TimeDifferenceMODE);
+    
+    //Values and Prices
+    //=================
     
     fprintf(fptr, "%f\n", SingleLessonPrice);
     fprintf(fptr, "%f\n", GroupLessonPrice);
+    fprintf(fptr, "%f\n", NewSinglePriceBR);
+    fprintf(fptr, "%f\n", NewGroupPriceBR);
     fprintf(fptr, "%f\n", DiscountValue);
     fprintf(fptr, "%f\n", ArgPrice);
     
     printf("Single lesson price saved: %.2f\n", SingleLessonPrice);
     printf("Group lesson price saved: %.2f\n", GroupLessonPrice);
-    printf("Discount value saved: %.2f\n", DiscountValue);
+	printf("Single lesson price for new students saved: %.2f\n", NewSinglePriceBR);
+    printf("Group lesson price for new students saved: %.2f\n", NewGroupPriceBR);
+	printf("Discount value saved: %.2f\n", DiscountValue);
 	printf("Argentina's price saved: %.2f\n", ArgPrice);
 	    
 	fclose(fptr);
@@ -537,17 +552,33 @@ void Load() {
 	}
 		
     // Read variables from the file
+    //==================================================================
+    
+    
+    // Config variables
+    //=================
+
+    fscanf(fptr, "%d", &TimeDifferenceMODE);
+    printf("Config: Time Difference MODE loaded [%d]\n", TimeDifferenceMODE);
+  
+  
+    //Values and Prices
+    //=================  
+    
     fscanf(fptr, "%f", &SingleLessonPrice);
     fscanf(fptr, "%f", &GroupLessonPrice);
+    fscanf(fptr, "%f", &NewSinglePriceBR);
+    fscanf(fptr, "%f", &NewGroupPriceBR);
     fscanf(fptr, "%f", &DiscountValue);
     fscanf(fptr, "%f", &ArgPrice);
 
     printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
     printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
+    printf("Single lesson price for new students loaded: %.2f\n", NewSinglePriceBR);
+    printf("Group lesson price for new students loaded: %.2f\n", NewGroupPriceBR);
     printf("Discount value loaded: %.2f\n", DiscountValue);
     printf("Argentina's price loaded: %.2f\n", ArgPrice);
 
-	
 	fclose(fptr);
 	ClearScreen();
 	    
@@ -840,8 +871,6 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 			
 		case 7:
 			
-			SaveData();
-			ClearScreen();
 			return;
 			break;
 			
@@ -864,8 +893,6 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 //* Options for each students (country, single, group, old or new, etc.) 
 //  are saved in memory and automaticly loaded.
 
-//* UPDATE the SAVE and LOAD subfunctions with all these new varialbles
-//  used for price differences between long-standing students and new students.
 
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
@@ -886,6 +913,9 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 //* Additional variables have been added as well. The 'Change Variables' section has been updated.
 //* You can activate and deactivate this mode, which includes price differences between long-standing 
 //  students and new students, from the Configuration menu.
+//* SAVE and LOAD subfunctions UPDATED with new variables used for price 
+//  differences between long-standing students and new students.
+
 
 //  0.5
 //* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
