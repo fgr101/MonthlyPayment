@@ -1,6 +1,7 @@
 #include <stdio.h>	//*This is the STANDARD LIBRARY for C.
 #include <string.h> //*This is the library to work with strings.
 #include <unistd.h> //*Include this for access function. Required for sleep() on Unix-like systems
+#include <time.h>
 
 #ifdef _WIN32
 #include <windows.h> // Required for Sleep() on Windows 
@@ -19,6 +20,11 @@ void GeneratePayment();
 void TimeDifferenceSUB();
 void ConfigMenu();
 
+//USA Market
+
+void USAMarket();
+float USPrice = 5;
+
 // Constants
 
 int MAX_STORAGE = 5;
@@ -27,7 +33,7 @@ int MAX_STORAGE = 5;
 
 float SingleLessonPrice = 31;
 float GroupLessonPrice = 25;
-float ArgPrice = 3125;
+float ArgPrice = 5000;
 float DiscountValue = 10;
 float TotalValue = 1;
 
@@ -47,6 +53,10 @@ char Month[15];
 int Options;
 int i;
 float HoursNumber;
+
+//Date and Time
+
+char s[50];
 
 // Results
 
@@ -107,11 +117,12 @@ int main() {
 	Load();
 	
 	ProgramIni:
+	Options = 0;   //resets the variable OPTIONS to be used again in the menu.
 	ClearScreen();
 	
 	printf("\n\n");
 	printf(".===================================.\n");
-	printf("|  Monthly Payment Calculator 0.5   |\n");
+	printf("|  Monthly Payment Calculator 0.6   |\n");
 	printf(".===================================.\n");
 	printf("|                                   |\n");
 	printf("| [1] Generate Payment              |\n");
@@ -207,6 +218,7 @@ int main() {
 	printf("|                                   |\n");
 	printf("| [1] Argentina [ARS]               |\n");
 	printf("| [2] Brazil [BRL]                  |\n");
+	printf("| [3] United States [USD]           |\n");
 	printf("|                                   |\n");
     printf("|                                   |\n");
 	printf(".===================================.\n\n");
@@ -217,11 +229,10 @@ int main() {
 	
 		case 1:
 		
-			//CALL ARGENTINA'S SUB FUNCTION
+			//SETS MARKET TO ARGENTINA'S MODE
 			
 			Market = 1;
-			ArgMarket();
-			return 0;
+			goto AskInformation;
 			break;
 		
 		case 2:
@@ -230,6 +241,12 @@ int main() {
 			goto AskGroup;
 			break;
 			
+		case 3:
+		
+			//SETS MARKET TO UNITED STATES'S MODE
+			Market = 3;
+			goto AskInformation;
+			break;
 			
 		default:
 		
@@ -297,6 +314,8 @@ int main() {
 	
 	//==================================================================
 		
+	AskInformation:
+	
 	printf("\nStudent Name: ");
 	scanf("%14s", &StudentName);
 	
@@ -305,6 +324,28 @@ int main() {
 	
 	printf("Number of lessons: ");
 	scanf("%f", &HoursNumber);
+	
+	//==================================================================
+	
+	// Calls subs for different markets and currencies.
+	
+	if (Market == 1) { 
+		
+		ArgMarket();
+		if (Options == 7) { return 0; } 
+		goto ProgramIni; 
+		
+	}
+	
+	if (Market == 3) { 
+		
+		USAMarket();
+		if (Options == 7) { return 0; } 
+		goto ProgramIni; 
+		
+	}
+
+	//==================================================================
 	
 	MonthPayment = Price * HoursNumber;   
 	
@@ -418,38 +459,9 @@ int main() {
 	
 	Exit:
 	
-	printf("\n\n1- Do Another Payment \n");
-	printf("2- Main Menu \n");
-	printf("7- Exit... \n");
-	scanf("%d2s", &Options);
-	
-	switch(Options){
-		
-		case 1:
-		
-			goto AskLanguage;
-			break;
-		
-		case 2:
-		
-			goto ProgramIni;
-			break;
-		
-		case 7:
-		
-			ClearScreen();
-			return 0;
-			break;
-		
-		default:
-			
-			SaveData();
-			goto Exit;
-			break;
-	
-	}
-	
-	return 0;
+	GoBackMenu(); // Show GO BACK menu.
+	if (Options == 7) { return 0; } 
+	goto ProgramIni;
 	
 }
 
@@ -482,9 +494,22 @@ void NewEntryFile() {
 		printf("Error opening file!\n");
 		return;
 	}
+	
+	//==================================================================
+	// REQUESTING DATE AND TIME
+		
+	time_t now = time(NULL); 
+    struct tm *local = localtime(&now);
 
+    strftime(s, sizeof(s), "%d-%m-%Y ||", local);
+    
+    //printf("Formatted time: %s\n", s);
+	
     // Write variables to the file
-    fprintf(fptr, "* %s [%s] R$%.2f\n", StudentName, Month, TotalValue);
+
+	//==================================================================
+    
+    fprintf(fptr, "* %s %s [%s] R$%.2f\n", s, StudentName, Month, TotalValue);
      
 	fclose(fptr);
 	
@@ -523,6 +548,7 @@ void SaveData() {
     fprintf(fptr, "%f\n", NewGroupPriceBR);
     fprintf(fptr, "%f\n", DiscountValue);
     fprintf(fptr, "%f\n", ArgPrice);
+    fprintf(fptr, "%f\n", USPrice);
     
     printf("Single lesson price saved: %.2f\n", SingleLessonPrice);
     printf("Group lesson price saved: %.2f\n", GroupLessonPrice);
@@ -530,6 +556,8 @@ void SaveData() {
     printf("Group lesson price for new students saved: %.2f\n", NewGroupPriceBR);
 	printf("Discount value saved: %.2f\n", DiscountValue);
 	printf("Argentina's price saved: %.2f\n", ArgPrice);
+	printf("United States price saved: %.2f\n", USPrice);
+
 	    
 	fclose(fptr);
 	
@@ -571,6 +599,7 @@ void Load() {
     fscanf(fptr, "%f", &NewGroupPriceBR);
     fscanf(fptr, "%f", &DiscountValue);
     fscanf(fptr, "%f", &ArgPrice);
+    fscanf(fptr, "%f", &USPrice);
 
     printf("Single lesson price loaded: %.2f\n", SingleLessonPrice);
     printf("Group lesson price loaded: %.2f\n", GroupLessonPrice);
@@ -578,6 +607,8 @@ void Load() {
     printf("Group lesson price for new students loaded: %.2f\n", NewGroupPriceBR);
     printf("Discount value loaded: %.2f\n", DiscountValue);
     printf("Argentina's price loaded: %.2f\n", ArgPrice);
+    printf("United States price loaded: %.2f\n", USPrice);
+
 
 	fclose(fptr);
 	ClearScreen();
@@ -597,6 +628,7 @@ void ChangePrices() {
 	printf("|                                   |          Brazil single lesson price for new students: R$%.2f [BRL]\n", NewSinglePriceBR);
 	printf("| [1] Argentina [ARS]               |          Brazil group lesson price for new students: R$%.2f [BRL]\n", NewGroupPriceBR);
 	printf("| [2] Brazil [BRL]                  |          Brazil discount value: %.2f [percentage]\n", DiscountValue);
+	printf("| [3] United States [USD]           |          United States price: $%.2f [USD]\n", USPrice);
 	printf("| [7] Go Back                       |\n");
 	printf("|                                   |\n");
     printf("|                                   |\n");
@@ -633,6 +665,14 @@ void ChangePrices() {
 
 			goto AskVariablesAgain;
 			break;
+			
+		case 3:
+		
+			printf("\nUnited States's price? \n");
+			scanf("%f4s", &USPrice);
+			
+			goto AskVariablesAgain;
+			break;
 		
 		case 7:
 		
@@ -649,19 +689,8 @@ void ChangePrices() {
 }
 
 void ArgMarket() {
-		
-	printf("\nStudent Name: ");
-	scanf("%14s", &StudentName);
-	
-	printf("Month of Payment: ");
-	scanf("%14s", &Month);
-	
-	printf("Number of lessons: ");
-	scanf("%f", &HoursNumber);
-	
-	printf("Individual Lessons... \n");
+			
 	Price = ArgPrice;
-		
 	MonthPayment = Price * HoursNumber;
 	
 	ClearScreen();
@@ -713,12 +742,70 @@ void ArgMarket() {
 	
 }
 
+void USAMarket() {
+
+	Price = USPrice;
+		
+	MonthPayment = Price * HoursNumber;
+	
+	ClearScreen();
+	
+	printf("\n\n"); 
+	printf("Full Monthly Payment: USD $%.2f \n\n", MonthPayment);
+	
+	TotalValue = MonthPayment;
+					
+	//--------------------------------------------------------------
+		
+	NewEntryFile();	// Add information to the 'payments.txt' file.
+		
+	//--------------------------------------------------------------
+	
+	printf("\n\n==================================================================================================== \n\n");
+		
+	switch(Language){
+			
+		case 1:
+			
+			printf("%s, this month (%s) we'll have %.0f classes. _%.0f * %.2f = USD $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+				
+			break;		
+					
+		
+		case 2: 
+						
+			printf("%s, este mes (%s) vamos a tener %.0f clases. _%.0f * %.2f = USD $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+				
+			break;
+			
+		case 3:
+				
+			printf("%s, esse mes (%s) teremos %.0f aulas. _%.0f * %.2f = USD $%.2f_", StudentName, Month, HoursNumber, HoursNumber, Price, MonthPayment);
+			
+			break;
+				
+		default:
+			
+			break;
+	
+	}
+	
+	printf("\n\n==================================================================================================== \n");
+	
+	GeneratePayment(); // Generate payment receipt.
+	GoBackMenu(); // Show GO BACK menu.
+	
+}
+
+
 void GoBackMenu() {
 	
 	Exit2:
+	
+	Options = 0;
 		
-	printf("\n\n1- Do Another Payment \n");
-	printf("2- Main Menu \n");
+	//printf("\n\n1- Do Another Payment \n");
+	printf("\n\n2- Main Menu \n");
 	printf("7- Exit... \n");
 	scanf("%d2s", &Options);
 	
@@ -731,7 +818,8 @@ void GoBackMenu() {
 			//break;
 		
 		case 2:
-		
+
+			Options = 0;
 			main();
 			return;
 			break;
@@ -749,6 +837,7 @@ void GoBackMenu() {
 			break;
 	
 	}
+	
 
 }
 
@@ -837,7 +926,7 @@ void ConfigMenu() {
 	
 	printf("\n\n");
 	printf(".==========================================.\n");
-	printf("|      Monthly Payment Calculator 0.5      |\n");
+	printf("|      Monthly Payment Calculator 0.6      |\n");
 	printf(".==========================================.\n");
 	printf("|                                          |\n");
 
@@ -890,16 +979,24 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 // TO DO
 // =====
 
+//* Alerts for late or missed payments.
+
+//* Generating monthly or yearly summary reports of total payments, discounts 
+//  applied, and other key metrics.
+
+//* Providing filters to view payments by student, lesson type, market, 
+//  or date range.
+
 //* Options for each students (country, single, group, old or new, etc.) 
 //  are saved in memory and automaticly loaded.
 
-
+//* Show the right currency for each 'payments.txt' entry.
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
-//* Manage 'payments.txt' from the program. Delete/edit entries.
-//* Add DATES and TIME in payments logs.
 
-//  Ability to view and manage the payment entries stored in the payments.txt 
+//* Manage 'payments.txt' from the program. Delete/edit entries.
+
+//  Ability to view and manage payment entries stored in payments.txt 
 //  file directly from the program. This could include features like viewing the 
 //  payment history, editing or deleting entries, and potentially generating 
 //  reports.
@@ -908,6 +1005,16 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 // ====
 
 // 0.6
+
+//* Most GO BACK MENU bugs solved. User can exit right after producing
+// a payment message and log without problems.
+
+//* Variables added for US Payments.
+//* English currency and USA payments added. Make options for the United 
+// States market available. Differenciate prices in US dollars and create 
+// new sub that deals with US payments.
+
+//* DATE and TIME added in payment logs.
 //* It is now possible to assign a different price for new students compared to long-standing students.
 //* The program can differentiate between new students and long-standing students, and charge different rates for each.
 //* Additional variables have been added as well. The 'Change Variables' section has been updated.
@@ -915,7 +1022,6 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 //  students and new students, from the Configuration menu.
 //* SAVE and LOAD subfunctions UPDATED with new variables used for price 
 //  differences between long-standing students and new students.
-
 
 //  0.5
 //* Adapt system to payments in ARS currency, in Argentinean Pesos. Add it as an option.
