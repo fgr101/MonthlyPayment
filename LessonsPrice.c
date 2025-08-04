@@ -53,6 +53,7 @@ char Month[15];
 int Options;
 int i;
 float HoursNumber;
+char CurrencyLetters[3];
 
 //Date and Time
 
@@ -503,13 +504,32 @@ void NewEntryFile() {
 
     strftime(s, sizeof(s), "%d-%m-%Y ||", local);
     
-    //printf("Formatted time: %s\n", s);
+	//==================================================================
+    //SHOW THE RIGHT CURRENCY FOR EACH ENTRY: ARS, BRL, USD.
+    
+    switch (Market) {
+		
+		case 1:
+		
+			strcpy(CurrencyLetters, "ARS");
+			break;
+			
+		case 2:
+		
+			strcpy(CurrencyLetters, "BRL");
+			break;
+			
+		case 3:
+		
+			strcpy(CurrencyLetters, "USD");
+			break;
+		
+	}
 	
+	//==================================================================
     // Write variables to the file
 
-	//==================================================================
-    
-    fprintf(fptr, "* %s %s [%s] R$%.2f\n", s, StudentName, Month, TotalValue);
+    fprintf(fptr, "* %s %s [%s] %s $%.2f\n", s, StudentName, Month, CurrencyLetters, TotalValue);
      
 	fclose(fptr);
 	
@@ -990,7 +1010,6 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 //* Options for each students (country, single, group, old or new, etc.) 
 //  are saved in memory and automaticly loaded.
 
-//* Show the right currency for each 'payments.txt' entry.
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
 //* Open 'payments.txt' from the program.
 
@@ -1005,6 +1024,8 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 // ====
 
 // 0.6
+
+//* Show the right currency for each 'payments.txt' entry.
 
 //* Most GO BACK MENU bugs solved. User can exit right after producing
 // a payment message and log without problems.
