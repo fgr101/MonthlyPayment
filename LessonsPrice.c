@@ -19,6 +19,8 @@ void GoBackMenu();
 void GeneratePayment();
 void TimeDifferenceSUB();
 void ConfigMenu();
+void ShowPayments();
+void WaitKey();
 
 //USA Market
 
@@ -54,6 +56,7 @@ int Options;
 int i;
 float HoursNumber;
 char CurrencyLetters[3];
+char input;
 
 //Date and Time
 
@@ -144,6 +147,8 @@ int main() {
 		case 2:
 		
 			//SHOW MONTHLY PAYMENTS
+			ShowPayments();
+			return 0;
 			break;
 			
 		case 3:
@@ -939,6 +944,55 @@ void TimeDifferenceSUB() {
 	
 }
 
+void ShowPayments() {
+	
+    FILE * FilePointer = fopen("Payments.txt", "r");
+    
+    // Reading the file data using fgets() in the
+    // form of a block of size 30 bytes
+    
+    for (i = 0; i < 5; i++) {
+          
+		char buff[50];
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		fgets(buff, sizeof(buff), fptr);
+		printf("%s", buff);
+		
+		printf ("\n Input [1] to continue...");
+		WaitKey();
+		
+	}
+    
+    //--------------------------------
+    
+    //fseek(FilePointer, 0, SEEK_SET);
+
+	//char ch = fgetc(FilePointer);
+	
+	//if (ch != EOF) {
+       
+       //printf("\n First character in the file: %c\n", ch);
+   
+   //}
+        
+}
+	
+	
 void ConfigMenu() {
 	
 	ConfigMenuIni:
@@ -961,7 +1015,7 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 
 	scanf("%d", &Options);
 
-	switch(Options){
+	switch(Options) {
 		
 		case 1:
 			
@@ -990,9 +1044,24 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 	
 	}
 
-	
-	
 }
+	
+void WaitKey() {
+	
+	// Loop until a key is pressed
+			
+	do {
+			
+		input = getchar();
+		
+	} while (input == '\n'); // Ignore newline characters
+
+	//printf("\n Key '%c' pressed. Program continues...\n", input);
+
+	return;
+
+}
+
 
 // ================================= NOTES =======================================	
 	
@@ -1010,7 +1079,18 @@ if (TimeDifferenceMODE == 1) {printf("| [1] Change prices for NEW students [ON] 
 //* Options for each students (country, single, group, old or new, etc.) 
 //  are saved in memory and automaticly loaded.
 
+//--------------------------------------------------------------------------
+
 //* Show 'payments.txt' entries in the program. Print entries on the screen.
+//  USE fgets() and fputs(): These functions are used to read and write 
+// strings to and from files, respectively.
+
+//fgets() allows the programmer to read a line of text from a file.
+//fputs() allows the programmer to write a string to a file.
+//Understanding these functions is useful for working with text-based files.
+
+//--------------------------------------------------------------------------
+
 //* Open 'payments.txt' from the program.
 
 //* Manage 'payments.txt' from the program. Delete/edit entries.
