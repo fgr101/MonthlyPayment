@@ -934,13 +934,6 @@ void TimeDifferenceSUB() {
 			break;
 		
 	}
-
-	
-	
-	
-	
-	
-	
 	
 }
 
@@ -951,32 +944,25 @@ void ShowPayments() {
     // Reading the file data using fgets() in the
     // form of a block of size 30 bytes
     
-    for (i = 0; i < 5; i++) {
-          
-		char buff[50];
+    // Muestra archivo de lista de pagos desde el principio.
+
+	char buff[50];
+
+	do {
 		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
 		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
+		for (i = 0; i <= 19; i++) {
 		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
+			fgets(buff, sizeof(buff), fptr);
+			printf("%s", buff);
 		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
-		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
-		
-		fgets(buff, sizeof(buff), fptr);
-		printf("%s", buff);
+		}
 		
 		printf ("\n Input [1] to continue...");
 		WaitKey();
-		
-	}
+			
+	} while ((fgets(buff, sizeof(buff), FilePointer) != NULL));
+    
     
     //--------------------------------
     
